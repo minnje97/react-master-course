@@ -1,22 +1,25 @@
-import {minuteState,hourSelector}from "./atoms";
-import {useRecoilState} from "recoil";
-import ReactApexChart from "react-apexcharts";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 function App() {
-  const [minutes, setMinutes]=useRecoilState(minuteState);
-  const [hours, setHours]=useRecoilState(hourSelector);
-  const onMinutesChange=(event:React.FormEvent<HTMLInputElement>)=>{
-    setMinutes(+event.currentTarget.value);
-  }
-  const onHoursChange=(event:React.FormEvent<HTMLInputElement>)=>{
-    setHours(+event.currentTarget.value);
-  }
+  const onDragEnd = () => {};
   return (
-  <div>
-    <input value={minutes} onChange={onMinutesChange} type="number" placeholder="Minutes"/>
-    <input type="number" onChange={onHoursChange} value={hours} placeholder="Hours"/>
-  </div>
-  )
+    <DragDropContext onDragEnd={onDragEnd}>
+      <div>
+        <Droppable droppableId="one">
+          {() => (
+            <ul>
+              <Draggable draggableId="first" index={0}>
+                {() => <li>One</li>}
+              </Draggable>
+              <Draggable draggableId="second" index={1}>
+                {() => <li>Two</li>}
+              </Draggable>
+            </ul>
+          )}
+        </Droppable>
+      </div>
+    </DragDropContext>
+  );
 }
 
 export default App;
